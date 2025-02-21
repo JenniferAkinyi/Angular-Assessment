@@ -49,7 +49,7 @@ jobs:
               --exclude "index.html"
             
             # Upload index.html separately to the browser/ prefix
-            aws s3 cp ./dist/angular-assessment/index.html s3://jenniferangular/browser/index.html \
+            aws s3 cp ./dist/angular-assessment/browser/index.html s3://jenniferangular/browser/index.html \
               --content-type "text/html" \
               --cache-control "no-cache, no-store, must-revalidate"
                       
