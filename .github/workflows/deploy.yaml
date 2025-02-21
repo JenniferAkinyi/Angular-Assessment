@@ -40,10 +40,16 @@ jobs:
             aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ env.AWS_REGION }}
 
-        - name: deployment
+        - name: Deploy to S3
           run: |
-            aws s3 sync ./dist/angular-assessment/ s3://${{ env.AWS_S3_BUCKET }} \
-            --delete \
-            --cache-control "max-age=31536000" \
-            --cache-control "no-cache, no-store, must-revalidate"
-              
+            # Sync all files except index.html to the browser/ prefix
+            aws s3 sync ./dist/angular-assessment/ s3://jenniferangular/browser/ \
+              --delete \
+              --cache-control "max-age=31536000" \
+              --exclude "index.html"
+            
+            # Upload index.html separately to the browser/ prefix
+            aws s3 cp ./dist/angular-assessment/index.html s3://jenniferangular/browser/index.html \
+              --content-type "text/html" \
+              --cache-control "no-cache, no-store, must-revalidate"
+                      
